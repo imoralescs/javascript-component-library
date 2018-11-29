@@ -1,0 +1,87 @@
+/* ==========================================================================
+	GLOBAL
+========================================================================== */
+:root {
+	font-family: Arial, Helvetica, sans-serif;
+	height: 100%;
+}
+
+// Fixes input elements to have border-box great for percentages
+* , *:before , *:after {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	box-sizing: border-box;
+}
+
+// Remove annoying dotted outline on links and form elements
+* {
+	outline: 0;
+}
+
+/* IE 10 Overrides */
+// Removes annoying x on inputs
+*::-ms-clear {
+	display: none;
+}
+
+// Fix scrollbar overlap
+body {
+	-ms-overflow-style: scrollbar !important;
+}
+
+// Browser Form overwrites
+input, textarea {
+	-webkit-appearance: none;
+	appearance: none;
+}
+select {
+	border-radius: 0;
+}
+
+textarea {
+	resize: none;
+}
+
+input[type=submit] {
+	cursor: pointer;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #fafafa inset !important;
+}
+
+/* Mobile Overrides */
+// remove ugly highlight color
+* {
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	font-weight: normal;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background: #ffffff;
+}
+
+dl, h1, h2, h3, h4, h5, h6, ol, p, ul {
+	margin: 0;
+	padding: 0;
+}
+
+ul, ol {
+	list-style: none;
+}
+
+input, textarea {
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}

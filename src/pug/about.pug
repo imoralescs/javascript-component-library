@@ -1,0 +1,8 @@
+extends templates/layout
+include modules/modal
+
+block content 
+  h1 About Page
+  a#openHomeModal(href='#modal') Open About Modal
+  +modal('homeModal', 'closeHomeModal', 'openHomeModal')
+  

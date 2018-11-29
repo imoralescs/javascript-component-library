@@ -1,0 +1,6 @@
+# /node_modules/* and /bower_components/* ignored by default
+# Ignore files
+dist/*
+**/*.json
+webpack.config.js
+package.json

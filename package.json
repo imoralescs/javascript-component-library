@@ -1,0 +1,50 @@
+{
+  "name": "front-end-starter-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently 'npm run dev:webpack' 'nodemon ./server.js'",
+    "dev:webpack": "webpack --watch --colors --mode=development",
+    "prod": "webpack --mode production",
+    "_comment": "On debug, you can replace index.js with other module. To debug, on Chrome browser chrome://inspect/#devices",
+    "debug": "node --inspect --debug-brk ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imoralescs/front-end-starter-kit.git"
+  },
+  "author": "Israel Morales",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/imoralescs/front-end-starter-kit/issues"
+  },
+  "homepage": "https://github.com/imoralescs/front-end-starter-kit#readme",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "babel-loader": "^8.0.4",
+    "clean-webpack-plugin": "^1.0.0",
+    "concurrently": "^4.1.0",
+    "css-loader": "^1.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.10.0",
+    "nodemon": "^1.18.7",
+    "pug-html-loader": "^1.1.5",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}

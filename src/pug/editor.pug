@@ -1,0 +1,31 @@
+extends templates/layout
+include modules/modal
+
+block content 
+  div.editor
+    div.editor__container
+      header.editor__header
+        h1 Editor
+      div.editor__content
+        div.editor__result 
+        div.editor__text-editor
+          textarea#textEditor
+      footer.editor__footer
+        p Editor
+  script.
+      document.addEventListener("DOMContentLoaded", function() {
+        System.import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.42.0/mode/javascript/javascript.min.js');
+        System.import('/js/editor.bundle.js')
+          .then(function(modules){
+            let $textEditor = new modules.default({
+              editor: '#textEditor',
+            });
+
+            window.CodeMirror.fromTextArea($textEditor.editor[0], {
+                mode: 'javascript',
+                theme: 'monokai',
+                lineNumbers: true,
+                tabSize: 2
+            });
+        });
+      });
