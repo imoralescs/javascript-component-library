@@ -13,17 +13,26 @@ block content
           .then(function(modules) {
             const store = new Store();
         
-            const btnInc = new modules.default('#buttonIncrement');
-            const btnDec = new modules.default('#buttonDecrement');
+            const $btnInc = new modules.default('#buttonIncrement');
+            const $btnDec = new modules.default('#buttonDecrement');
+            const $counter = new modules.default('#counter');
 
-            btnInc.on('click', function(event) {
-              console.log('increment');
-              console.log(store.dispatch('INCREMENT'));
+            const render = function(state) {
+              $counter[0].textContent = state.counter;
+            }
+
+            $btnInc.on('click', function(event) {
+              store.dispatch('INCREMENT');
             });
 
-            btnDec.on('click', function(event) {
-              console.log('decrement');
-              console.log(store.getState());
+            $btnDec.on('click', function(event) {
+              store.dispatch('DECREMENT');
             });
+
+            store.subscribe(function() {
+              render(store.getState());
+            });
+
+            render(store.getState());
           });
       });

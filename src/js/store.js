@@ -4,6 +4,9 @@ const counter = function counter(state, action) {
     case 'INCREMENT': {
       return state + 1;
     }
+    case 'DECREMENT': {
+      return state - 1;
+    }
     default:
       return currentState;
   }
@@ -65,13 +68,6 @@ class Store {
       subscriber(this.prevState, this.state);
     });
   }
-
-  // Class dont used this, can be static
-  /* reduce(state, action) {
-    return {
-      counter: counter(state.counter, action),
-    };
-  } */
 }
 
 Store.prototype.reduce = function reduce(state, action) {
