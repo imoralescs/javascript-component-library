@@ -6,10 +6,19 @@ block content
     div.editor__container
       header.editor__header
         h1 Editor
+        button#save Save
       div.editor__content
-        div.editor__result 
+        div#result.editor__result 
         div.editor__text-editor
-          textarea#textEditor
+          nav
+            ul
+              li 
+                a File 1
+              li 
+                a File 2
+          ul 
+            li
+              textarea#textEditor
       footer.editor__footer
         p Editor
   script.
@@ -20,12 +29,23 @@ block content
             let $textEditor = new modules.default({
               editor: '#textEditor',
             });
+            let $saveEditor = new modules.default({
+              editor: '#save',
+            });
+            let $result = new modules.default({
+              editor: '#result',
+            });
 
-            window.CodeMirror.fromTextArea($textEditor.editor[0], {
+            var editor = window.CodeMirror.fromTextArea($textEditor.editor[0], {
                 mode: 'javascript',
                 theme: 'monokai',
                 lineNumbers: true,
                 tabSize: 2
+            });
+
+            $saveEditor.editor.on('click', function(){
+              console.log('save');
+              $result.editor[0].innerHTML = editor.getValue();
             });
         });
       });
