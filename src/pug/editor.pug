@@ -7,18 +7,23 @@ block content
       header.editor__header
         h1 Editor
         button#save Save
-      div.editor__content
-        div#result.editor__result 
-        div.editor__text-editor
-          nav
-            ul
-              li 
-                a File 1
-              li 
-                a File 2
-          ul 
-            li
-              textarea#textEditor
+        button#update Update
+      div#editor.editor__content
+        div#resultEditor.editor__result 
+        div#resizeBarEditor.editor__bar.editor__bar-resize
+        div#sourceEditor.editor__text-editor
+          nav.editor__nav
+            ul.editor__nav-items
+              li#javascript.editor__nav-item.active 
+                a Javascript
+              li#scss.editor__nav-item
+                a SCSS
+              li#html.editor__nav-item 
+                a HTML
+              li#desc.editor__nav-item 
+                a Description
+          div 
+            div#textEditor
       footer.editor__footer
         p Editor
   script.
@@ -32,20 +37,182 @@ block content
             let $saveEditor = new modules.default({
               editor: '#save',
             });
+            let $updateEditor = new modules.default({
+              update: '#update',
+            });
             let $result = new modules.default({
               editor: '#result',
             });
 
-            var editor = window.CodeMirror.fromTextArea($textEditor.editor[0], {
+            var editor = window.CodeMirror($textEditor.editor[0], {
                 mode: 'javascript',
                 theme: 'monokai',
                 lineNumbers: true,
                 tabSize: 2
             });
 
+            let buffers = {};
+            const openBuffer = function(name, text, mode) {
+              buffers[name] = CodeMirror.Doc(text, mode);
+            }
+
+            openBuffer("js", "console.log('hey');", "javascript");
+            openBuffer("css", "h1{color:red}", "css");
+            openBuffer("html", "<h1>Header</h1>", "html");
+
+            function selectBuffer(editor, name) {
+              var buf = buffers[name];
+              if (buf.getEditor()) buf = buf.linkedDoc({sharedHist: true});
+              var old = editor.swapDoc(buf);
+              var linked = old.iterLinkedDocs(function(doc) {linked = doc;});
+              if (linked) {
+                for (var name in buffers) if (buffers[name] == old) buffers[name] = linked;
+                old.unlinkDoc(linked);
+              }
+              editor.focus();
+            }
+
+            selectBuffer(editor, "js");
+
+            let $javascript = new modules.default({ js: '#javascript' });
+            let $scss = new modules.default({ scss: '#scss' });
+            let $html = new modules.default({ html: '#html' });
+            let $description = new modules.default({ desc: '#desc' });
+
+            $javascript.js.on('click', function() {
+              selectBuffer(editor, "js");
+            });
+
+            $scss.scss.on('click', function() {
+              selectBuffer(editor, "css");
+            });
+
+            $html.html.on('click', function() {
+              selectBuffer(editor, "html");
+            });
+
+            $description.desc.on('click', function() {
+              console.log('Click');
+            });
+
+            fetch('/components/example-1')
+              .then((response) => {
+                console.log(response);
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => {
+                console.log(error)
+              });
+
             $saveEditor.editor.on('click', function(){
               console.log('save');
-              $result.editor[0].innerHTML = editor.getValue();
+
+              const _data = JSON.stringify({
+                  name : "Example",
+                  description : "Lorem Ipsum",
+                  files : {
+                    js : {
+                      name: "script",
+                      source: "console.log();"
+                    },
+                    css : {
+                      name: "style",
+                      source: ""
+                    },
+                    html : {
+                      name: "index",
+                      source: ""
+                    }
+                  }
+              });
+              
+              fetch('/components', {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: _data
+              })
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => {
+                console.log(error);
+              })
             });
+
+            $updateEditor.update.on('click', function(){
+              console.log('update');
+
+              const _data = JSON.stringify({
+                  name : "Example",
+                  description : "Lorem Ipsum",
+                  files : {
+                    js : {
+                      name: "script",
+                      source: "console.log('Hey');"
+                    },
+                    css : {
+                      name: "style",
+                      source: ""
+                    },
+                    html : {
+                      name: "index",
+                      source: ""
+                    }
+                  }
+              });
+              
+              fetch('/components/Example', {
+                method: 'PUT',
+                headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: _data
+              })
+              .then((response) => {
+                return response.json();
+              })
+              .then((data) => {
+                console.log(data);
+              })
+              .catch((error) => {
+                console.log(error);
+              })
+            });
+
+            let
+              isResizing = false, 
+              $editor = new modules.default({ editor: '#editor' }),
+              $resultEditor = new modules.default({ resultEditor: '#resultEditor' }),
+              $resizeBarEditor = new modules.default({ resizeBarEditor: '#resizeBarEditor' });
+            
+            const activeResizeBar = function() {
+              isResizing = true;
+            }
+
+            const resizePanel = function(event) {
+              if(!isResizing) {
+                return;
+              }
+
+              $resultEditor.resultEditor[0].style.width = `${event.clientX}px`;
+            }
+
+            const stopResizing = function() {
+              isResizing = false;
+            }
+
+            $resizeBarEditor.resizeBarEditor.on('mousedown', activeResizeBar);
+            document.addEventListener('mousemove', resizePanel);
+            document.addEventListener('mouseup', stopResizing);
         });
       });

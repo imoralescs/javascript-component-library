@@ -7,6 +7,7 @@ module.exports = {
     ],
     "rules": {
         "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement", "BinaryExpression[operator='in']"],
-        "brace-style": ["error", "stroustrup", { "allowSingleLine": true }]
+        "brace-style": ["error", "stroustrup", { "allowSingleLine": true }],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
     }
 };

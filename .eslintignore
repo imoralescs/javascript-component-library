@@ -2,5 +2,6 @@
 # Ignore files
 dist/*
 **/*.json
+src/library/*
 webpack.config.js
 package.json
